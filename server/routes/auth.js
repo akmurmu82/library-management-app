@@ -22,7 +22,7 @@ router.post('/register', async (req, res) => {
 
     // Generate token
     const token = jwt.sign(
-      { id: user._id }, 
+      { id: user._id },
       process.env.JWT_SECRET || 'your-secret-key',
       { expiresIn: '7d' }
     );
@@ -31,6 +31,7 @@ router.post('/register', async (req, res) => {
     res.cookie('token', token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
+      sameSite: 'none', // Required for cross-site cookies
       maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
     });
 
@@ -62,7 +63,7 @@ router.post('/login', async (req, res) => {
 
     // Generate token
     const token = jwt.sign(
-      { id: user._id }, 
+      { id: user._id },
       process.env.JWT_SECRET || 'your-secret-key',
       { expiresIn: '7d' }
     );

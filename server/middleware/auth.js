@@ -3,6 +3,7 @@ const User = require('../models/User');
 
 const auth = async (req, res, next) => {
   try {
+    console.log('Auth middleware triggered');
     const token = req.cookies.token;
     
     if (!token) {
