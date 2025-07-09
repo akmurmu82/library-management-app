@@ -17,6 +17,39 @@ const Home: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
+  const [searchTerm, setSearchTerm] = useState('');
+  const [searchResults, setSearchResults] = useState<Book[]>([]);
+
+  const handleSearch = async () => {
+    if (!searchTerm.trim()) return;
+
+    try {
+      setLoading(true);
+      const res = await fetch(
+        `https://www.googleapis.com/books/v1/volumes?q=${encodeURIComponent(searchTerm)}`
+      );
+      const data = await res.json();
+
+      const formattedBooks = data.items?.map((item: any) => ({
+        _id: item.id,
+        title: item.volumeInfo.title,
+        author: item.volumeInfo.authors?.join(', ') || 'Unknown',
+        coverImage: item.volumeInfo.imageLinks?.thumbnail || '',
+        description: item.volumeInfo.description || '',
+        genre: item.volumeInfo.categories?.[0] || 'General',
+      })) || [];
+
+      setSearchResults(formattedBooks);
+    } catch (error) {
+      console.error('Google Books API error:', error);
+      setError('Failed to fetch from Google Books');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+
+
   useEffect(() => {
     fetchBooks();
   }, []);
@@ -89,6 +122,24 @@ const Home: React.FC = () => {
           </p>
         </div>
 
+        {/* Search Bar */}
+        <div className="flex items-center gap-4 mb-8 max-w-xl mx-auto">
+          <input
+            type="text"
+            placeholder="Search for books..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+          <button
+            onClick={handleSearch}
+            className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors"
+          >
+            Search
+          </button>
+        </div>
+
+
         {/* Books Grid */}
         {books.length === 0 ? (
           <div className="text-center py-12">
@@ -109,9 +160,13 @@ const Home: React.FC = () => {
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {books.map((book) => (
+            {/* {books.map((book) => (
+              <BookCard key={book._id} book={book} />
+            ))} */}
+            {(searchResults.length > 0 ? searchResults : books).map((book) => (
               <BookCard key={book._id} book={book} />
             ))}
+
           </div>
         )}
       </div>
