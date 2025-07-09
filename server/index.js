@@ -12,7 +12,7 @@ dotenv.config();
 const app = express();
 
 // CORS configuration
-const allowedOrigin = 'https://reimagined-space-rotary-phone-6w4g9w76qwv3rv77-5173.app.github.dev';
+const allowedOrigin = process.env.ALLOWED_ORIGINS || 'http://localhost:5173';
 
 app.use(cors({
   origin: allowedOrigin,

@@ -71,7 +71,7 @@ A full-stack MERN (MongoDB, Express.js, React, Node.js) application for managing
    PORT=5000
    MONGODB_URI=mongodb://localhost:27017/books-library
    JWT_SECRET=your-super-secret-jwt-key-here
-   CLIENT_URL=http://localhost:5173
+   ALLOWED_ORIGINS=http://localhost:5173
    ```
 
 4. **Start MongoDB**
