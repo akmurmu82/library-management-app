@@ -2,6 +2,8 @@ const express = require('express');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 const auth = require('../middleware/auth');
+dotenv = require('dotenv');
+dotenv.config();
 
 const router = express.Router();
 
@@ -30,7 +32,8 @@ router.post('/register', async (req, res) => {
     // Set HTTP-only cookie
     res.cookie('token', token, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
+      // secure: process.env.NODE_ENV === 'production',
+      secure: true, // Always true for Codespaces/dev containers
       sameSite: 'none', // Required for cross-site cookies
       maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
     });
@@ -52,7 +55,7 @@ router.post('/login', async (req, res) => {
     // Find user
     const user = await User.findOne({ email });
     if (!user) {
-      return res.status(400).json({ message: 'Invalid credentials' });
+      return res.status(404).json({ message: 'User not found!' });
     }
 
     // Check password
@@ -71,7 +74,9 @@ router.post('/login', async (req, res) => {
     // Set HTTP-only cookie
     res.cookie('token', token, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
+      // secure: process.env.NODE_ENV === 'production',
+      secure: true, // Always true for Codespaces/dev containers
+      sameSite: 'none', // Required for cross-site cookies
       maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
     });
 
@@ -92,7 +97,8 @@ router.post('/logout', (req, res) => {
 
 // Get current user
 router.get('/me', auth, async (req, res) => {
-  res.json({ user: { id: req.user._id, email: req.user.email } });
+  console.log('Get current user triggered');
+  res.json({ user: { id: req?.user?._id, email: req?.user?.email } });
 });
 
 module.exports = router;
