@@ -76,30 +76,31 @@ const MyBookCard: React.FC<MyBookCardProps> = ({ myBook, onUpdate }) => {
 
   return (
     <div className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
-      <div className="flex">
-        <div className="w-32 flex-shrink-0">
-          <img 
-            src={myBook.bookId.coverImage} 
+      <div className="flex sm:flex-row flex-col items-start sm:items-center p-4">
+        <div className="w-full sm:w-32 flex-shrink-0">
+          <img
+            src={myBook.bookId.coverImage}
             alt={myBook.bookId.title}
-            className="w-full h-48 object-cover"
+            className="w-full h-auto object-cover"
           />
         </div>
-        
+
+
         <div className="flex-1 p-4">
           <h3 className="text-lg font-semibold text-gray-800 mb-2">
             {myBook.bookId.title}
           </h3>
-          
+
           <p className="text-gray-600 mb-2 text-sm">
             by {myBook.bookId.author}
           </p>
-          
+
           {myBook.bookId.genre && (
             <span className="inline-block bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full mb-3">
               {myBook.bookId.genre}
             </span>
           )}
-          
+
           {/* Status Selection */}
           <div className="mb-4">
             <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -109,16 +110,15 @@ const MyBookCard: React.FC<MyBookCardProps> = ({ myBook, onUpdate }) => {
               value={myBook.status}
               onChange={(e) => handleStatusChange(e.target.value)}
               disabled={isUpdating}
-              className={`w-full px-3 py-2 rounded-md border text-sm font-medium transition-colors ${
-                getStatusColor(myBook.status)
-              } ${isUpdating ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}`}
+              className={`w-full px-3 py-2 rounded-md border text-sm font-medium transition-colors ${getStatusColor(myBook.status)
+                } ${isUpdating ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}`}
             >
               <option value="Want to Read">Want to Read</option>
               <option value="Currently Reading">Currently Reading</option>
               <option value="Read">Read</option>
             </select>
           </div>
-          
+
           {/* Rating */}
           <div className="mb-4">
             <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -130,16 +130,14 @@ const MyBookCard: React.FC<MyBookCardProps> = ({ myBook, onUpdate }) => {
                   key={star}
                   onClick={() => handleRatingChange(star)}
                   disabled={isUpdating}
-                  className={`transition-colors ${
-                    isUpdating ? 'cursor-not-allowed opacity-50' : 'cursor-pointer hover:scale-110'
-                  }`}
-                >
-                  <Star 
-                    className={`h-5 w-5 ${
-                      star <= (myBook.rating || 0) 
-                        ? 'text-yellow-500 fill-current' 
-                        : 'text-gray-300'
+                  className={`transition-colors ${isUpdating ? 'cursor-not-allowed opacity-50' : 'cursor-pointer hover:scale-110'
                     }`}
+                >
+                  <Star
+                    className={`h-5 w-5 ${star <= (myBook.rating || 0)
+                        ? 'text-yellow-500 fill-current'
+                        : 'text-gray-300'
+                      }`}
                   />
                 </button>
               ))}
@@ -150,11 +148,10 @@ const MyBookCard: React.FC<MyBookCardProps> = ({ myBook, onUpdate }) => {
               )}
             </div>
           </div>
-          
+
           {/* Current Status Badge */}
-          <div className={`inline-flex items-center space-x-2 px-3 py-1 rounded-full border text-sm font-medium ${
-            getStatusColor(myBook.status)
-          }`}>
+          <div className={`inline-flex items-center space-x-2 px-3 py-1 rounded-full border text-sm font-medium ${getStatusColor(myBook.status)
+            }`}>
             {getStatusIcon(myBook.status)}
             <span>{myBook.status}</span>
           </div>

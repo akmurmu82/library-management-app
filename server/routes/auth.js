@@ -97,7 +97,7 @@ router.post('/logout', (req, res) => {
 
 // Get current user
 router.get('/me', auth, async (req, res) => {
-  console.log('Get current user triggered');
+  // console.log('Get current user triggered');
   res.json({ user: { id: req?.user?._id, email: req?.user?.email } });
 });
 

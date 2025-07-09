@@ -17,7 +17,7 @@ const allowedOrigin = 'https://reimagined-space-rotary-phone-6w4g9w76qwv3rv77-51
 app.use(cors({
   origin: allowedOrigin,
   credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  methods: ['GET', 'POST', 'PATCH', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
 }));
 
