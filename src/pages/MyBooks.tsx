@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Library, BookOpen, Users, Star } from 'lucide-react';
 import MyBookCard from '../components/MyBookCard';
 import { myBooksAPI } from '../services/api';
+import toast from 'react-hot-toast';
 
 interface MyBook {
   _id: string;
@@ -36,6 +37,7 @@ const MyBooks: React.FC = () => {
     } catch (error) {
       console.error('Error fetching my books:', error);
       setError('Failed to load your books. Please try again.');
+      toast('Failed to load your books. Please try again.', { icon: '📚' });
     } finally {
       setLoading(false);
     }
@@ -94,6 +96,7 @@ const MyBooks: React.FC = () => {
   }
 
   const filteredBooks = getFilteredBooks();
+
   const stats = getStatistics();
 
   return (
@@ -165,11 +168,10 @@ const MyBooks: React.FC = () => {
                 <button
                   key={key}
                   onClick={() => setFilter(key)}
-                  className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
-                    filter === key
-                      ? 'bg-blue-600 text-white'
-                      : 'bg-white text-gray-700 hover:bg-blue-50 border border-gray-300'
-                  }`}
+                  className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${filter === key
+                    ? 'bg-blue-600 text-white'
+                    : 'bg-white text-gray-700 hover:bg-blue-50 border border-gray-300'
+                    }`}
                 >
                   {label}
                 </button>

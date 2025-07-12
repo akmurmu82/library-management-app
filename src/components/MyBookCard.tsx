@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Star, BookOpen, CheckCircle } from 'lucide-react';
 import { myBooksAPI } from '../services/api';
+import toast from 'react-hot-toast';
 
 interface MyBook {
   _id: string;
@@ -29,8 +30,10 @@ const MyBookCard: React.FC<MyBookCardProps> = ({ myBook, onUpdate }) => {
     try {
       const response = await myBooksAPI.updateStatus(myBook.bookId._id, newStatus);
       onUpdate(response.data);
+      toast(`Status updated to ${newStatus}`, { icon: '✅' });
     } catch (error) {
       console.error('Error updating status:', error);
+      toast('Failed to update status', { icon: '❌' });
     } finally {
       setIsUpdating(false);
     }
@@ -41,8 +44,10 @@ const MyBookCard: React.FC<MyBookCardProps> = ({ myBook, onUpdate }) => {
     try {
       const response = await myBooksAPI.updateRating(myBook.bookId._id, newRating);
       onUpdate(response.data);
+      toast(`Rating updated to ${newRating}/5`, { icon: '⭐' });
     } catch (error) {
       console.error('Error updating rating:', error);
+      toast('Failed to update rating', { icon: '❌' });
     } finally {
       setIsUpdating(false);
     }
@@ -135,8 +140,8 @@ const MyBookCard: React.FC<MyBookCardProps> = ({ myBook, onUpdate }) => {
                 >
                   <Star
                     className={`h-5 w-5 ${star <= (myBook.rating || 0)
-                        ? 'text-yellow-500 fill-current'
-                        : 'text-gray-300'
+                      ? 'text-yellow-500 fill-current'
+                      : 'text-gray-300'
                       }`}
                   />
                 </button>

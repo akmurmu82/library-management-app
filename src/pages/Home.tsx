@@ -1,7 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { BookOpen, RefreshCw } from 'lucide-react';
 import BookCard from '../components/BookCard';
 import { booksAPI } from '../services/api';
+import { debounce } from '../utils/debounce';
+import toast from 'react-hot-toast';
 
 interface Book {
   _id: string;
@@ -20,13 +22,16 @@ const Home: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [searchResults, setSearchResults] = useState<Book[]>([]);
 
-  const handleSearch = async () => {
-    if (!searchTerm.trim()) return;
-
+  const handleSearch = async (query: string) => {
+    if (!query.trim()) {
+      setSearchResults([]);
+      return;
+    }
     try {
       setLoading(true);
+      setError(null);
       const res = await fetch(
-        `https://www.googleapis.com/books/v1/volumes?q=${encodeURIComponent(searchTerm)}`
+        `https://www.googleapis.com/books/v1/volumes?q=${encodeURIComponent(query)}`
       );
       const data = await res.json();
 
@@ -40,15 +45,24 @@ const Home: React.FC = () => {
       })) || [];
 
       setSearchResults(formattedBooks);
+
+      if (formattedBooks.length === 0) {
+        toast('No books found', { icon: '📚' });
+      }
+
     } catch (error) {
       console.error('Google Books API error:', error);
       setError('Failed to fetch from Google Books');
+      toast.error('Failed to fetch from Google Books');
     } finally {
       setLoading(false);
     }
   };
 
-
+  const debouncedSearch = useCallback(
+    debounce((query: string) => handleSearch(query), 500),
+    []
+  );
 
   useEffect(() => {
     fetchBooks();
@@ -128,11 +142,15 @@ const Home: React.FC = () => {
             type="text"
             placeholder="Search for books..."
             value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
+            onChange={(e) => {
+              setSearchTerm(e.target.value);
+              debouncedSearch(e.target.value);
+            }}
+
             className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
           <button
-            onClick={handleSearch}
+            onClick={() => handleSearch(searchTerm)}
             className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors"
           >
             Search
@@ -159,11 +177,13 @@ const Home: React.FC = () => {
             </button>
           </div>
         ) : (
+
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {/* {books.map((book) => (
-              <BookCard key={book._id} book={book} />
-            ))} */}
+
             {(searchResults.length > 0 ? searchResults : books).map((book) => (
+              <BookCard key={book._id} book={book} />
+            ))}
+            {!searchTerm && books.map((book) => (
               <BookCard key={book._id} book={book} />
             ))}
 
