@@ -41,6 +41,7 @@ const BookCard: React.FC<BookCardProps> = ({ book, onAddToLibrary }) => {
       setIsAdded(true);
       onAddToLibrary?.(book._id);
       setTimeout(() => setIsAdded(false), 2000);
+      toast('Book added to your library!', { icon: '📚' });
     } catch (error: any) {
       console.error('Error adding book:', error);
       if (error.response?.data?.message === 'Book already in your library') {

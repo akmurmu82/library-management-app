@@ -182,7 +182,7 @@ const MyBookCard: React.FC<MyBookCardProps> = ({ myBook, onUpdate, onDelete }) =
           </div>
 
           {/* Current Status Badge */}
-          <div className={`inline-flex items-center space-x-2 px-3 py-1 rounded-full border text-sm font-medium ${getStatusColor(myBook.status)
+          <div className={`inline-flex items-center space-x-2 px-3 py-1.5 mr-2 rounded-md border text-sm font-medium ${getStatusColor(myBook.status)
             }`}>
             {getStatusIcon(myBook.status)}
             <span>{myBook.status}</span>
@@ -200,8 +200,6 @@ const MyBookCard: React.FC<MyBookCardProps> = ({ myBook, onUpdate, onDelete }) =
             <Trash className="h-4 w-4" />
             <span>Remove from Library</span>
           </button>
-
-
         </div>
       </div>
     </div >

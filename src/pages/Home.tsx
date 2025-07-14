@@ -81,7 +81,7 @@ const Home: React.FC = () => {
     try {
       setLoadingSuggestions(true);
       // You can pick a random common keyword or topic to keep results relevant
-      const keywords = ['fiction', 'science', 'adventure', 'history', 'fantasy', 'novel', 'coding', 'design'];
+      const keywords = ['fiction', 'science', 'adventure', 'development', 'fantasy', 'novel', 'coding', 'design'];
       const randomKeyword = keywords[Math.floor(Math.random() * keywords.length)];
 
       const res = await fetch(
@@ -229,15 +229,18 @@ const Home: React.FC = () => {
         {/* Book Cards */}
         {!searchTerm && (
           <div className="mb-12">
-            <div className="text-center mb-8 flex justify-between items-center">
-              <h2 className="text-2xl font-semibold text-gray-900 mb-4">Discover New Books</h2>
+            <div className="mb-8 flex flex-col sm:flex-row sm:justify-between sm:items-center text-center sm:text-left space-y-4 sm:space-y-0">
+              <h2 className="text-xl sm:text-2xl lg:text-3xl font-semibold text-gray-900">
+                Discover New Books
+              </h2>
               <button
                 onClick={fetchSuggestions}
-                className="mb-4 inline-flex items-center space-x-2 bg-blue-600 text-white px-6 py-3 rounded-md hover:bg-blue-700 transition-colors"
+                className="inline-flex items-center justify-center space-x-2 bg-blue-600 text-white px-4 py-2 sm:px-5 sm:py-2.5 lg:px-6 lg:py-3 rounded-md hover:bg-blue-700 transition-colors text-sm sm:text-base"
               >
                 Show other suggestions
               </button>
             </div>
+
 
             {loadingSuggestions ? (
               <div className="text-center py-12">
