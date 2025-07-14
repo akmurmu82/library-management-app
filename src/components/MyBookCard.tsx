@@ -53,6 +53,23 @@ const MyBookCard: React.FC<MyBookCardProps> = ({ myBook, onUpdate }) => {
     }
   };
 
+  const handleDelete = async () => {
+    if (!confirm(`Are you sure you want to throw away "${myBook.bookId.title}"?`)) return;
+    setIsUpdating(true);
+    try {
+      await myBooksAPI.delete(myBook.bookId._id);
+      toast(`You threw away "${myBook.bookId.title}" 📚❌`);
+      // call onUpdate with null to tell parent to remove it
+      onUpdate({ ...myBook, _deleted: true } as any);
+    } catch (error) {
+      console.error('Error deleting book:', error);
+      toast('Failed to throw the book', { icon: '❌' });
+    } finally {
+      setIsUpdating(false);
+    }
+  };
+
+
   const getStatusIcon = (status: string) => {
     switch (status) {
       case 'Want to Read':
@@ -160,6 +177,15 @@ const MyBookCard: React.FC<MyBookCardProps> = ({ myBook, onUpdate }) => {
             {getStatusIcon(myBook.status)}
             <span>{myBook.status}</span>
           </div>
+
+          <button
+            onClick={handleDelete}
+            disabled={isUpdating}
+            className="mt-2 text-red-600 text-sm hover:underline disabled:opacity-50"
+          >
+            Throw this book
+          </button>
+
         </div>
       </div>
     </div>

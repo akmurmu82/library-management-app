@@ -31,20 +31,30 @@ const BookCard: React.FC<BookCardProps> = ({ book, onAddToLibrary }) => {
 
     setIsAdding(true);
     try {
-      await myBooksAPI.add(book._id);
+      await myBooksAPI.add(book._id, {
+        title: book.title,
+        author: book.author,
+        coverImage: book.coverImage,
+        description: book.description,
+        genre: book.genre
+      });
       setIsAdded(true);
       onAddToLibrary?.(book._id);
       setTimeout(() => setIsAdded(false), 2000);
     } catch (error: any) {
       console.error('Error adding book:', error);
       if (error.response?.data?.message === 'Book already in your library') {
-        setIsAdded(true);
+        setIsAdding(false);
+        toast('Book already in your library', { icon: '📚' });
         setTimeout(() => setIsAdded(false), 2000);
+      } else {
+        toast('Failed to add book', { icon: '❌' });
       }
     } finally {
       setIsAdding(false);
     }
   };
+
 
   return (
     <div className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 group">

@@ -21,6 +21,7 @@ const Home: React.FC = () => {
 
   const [searchTerm, setSearchTerm] = useState('');
   const [searchResults, setSearchResults] = useState<Book[]>([]);
+  const [isSearching, setIsSearching] = useState(false);
 
   const handleSearch = async (query: string) => {
     if (!query.trim()) {
@@ -28,7 +29,7 @@ const Home: React.FC = () => {
       return;
     }
     try {
-      setLoading(true);
+      setIsSearching(true);
       setError(null);
       const res = await fetch(
         `https://www.googleapis.com/books/v1/volumes?q=${encodeURIComponent(query)}`
@@ -45,6 +46,7 @@ const Home: React.FC = () => {
       })) || [];
 
       setSearchResults(formattedBooks);
+      console.log(formattedBooks);
 
       if (formattedBooks.length === 0) {
         toast('No books found', { icon: '📚' });
@@ -55,7 +57,7 @@ const Home: React.FC = () => {
       setError('Failed to fetch from Google Books');
       toast.error('Failed to fetch from Google Books');
     } finally {
-      setLoading(false);
+      setIsSearching(false);
     }
   };
 
@@ -157,9 +159,47 @@ const Home: React.FC = () => {
           </button>
         </div>
 
+        {/* While searching */}
+        {isSearching && searchTerm && (
+          <div className="text-center py-12">
+            <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-blue-600 mx-auto mb-4"></div>
+            <p className="text-gray-600">Searching for "{searchTerm}"...</p>
+          </div>
+        )}
 
-        {/* Books Grid */}
-        {books.length === 0 ? (
+        {/* Search results */}
+        {!isSearching && searchTerm && searchResults.length > 0 && (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            {searchResults.map((book) => (
+              <BookCard key={book._id} book={book} />
+            ))}
+          </div>
+        )}
+
+        {/* No search results */}
+        {!isSearching && searchTerm && searchResults.length === 0 && (
+          <div className="text-center py-12">
+            <BookOpen className="h-16 w-16 text-gray-400 mx-auto mb-4" />
+            <h2 className="text-2xl font-semibold text-gray-900 mb-4">
+              No Results Found
+            </h2>
+            <p className="text-gray-600 mb-6">
+              Try searching for a different title or author.
+            </p>
+          </div>
+        )}
+
+        {/* Default books */}
+        {!searchTerm && books.length > 0 && (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            {books.map((book) => (
+              <BookCard key={book._id} book={book} />
+            ))}
+          </div>
+        )}
+
+        {/* No books available */}
+        {!searchTerm && books.length === 0 && (
           <div className="text-center py-12">
             <BookOpen className="h-16 w-16 text-gray-400 mx-auto mb-4" />
             <h2 className="text-2xl font-semibold text-gray-900 mb-4">
@@ -175,18 +215,6 @@ const Home: React.FC = () => {
               <RefreshCw className="h-5 w-5" />
               <span>Add Sample Books</span>
             </button>
-          </div>
-        ) : (
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-
-            {(searchResults.length > 0 ? searchResults : books).map((book) => (
-              <BookCard key={book._id} book={book} />
-            ))}
-            {!searchTerm && books.map((book) => (
-              <BookCard key={book._id} book={book} />
-            ))}
-
           </div>
         )}
       </div>
