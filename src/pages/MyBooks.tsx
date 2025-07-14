@@ -185,7 +185,11 @@ const MyBooks: React.FC = () => {
                   key={myBook._id}
                   myBook={myBook}
                   onUpdate={handleBookUpdate}
+                  onDelete={(deletedId) =>
+                    setMyBooks(prev => prev.filter(book => book._id !== deletedId))
+                  }
                 />
+
               ))}
             </div>
 

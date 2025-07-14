@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Star, BookOpen, CheckCircle } from 'lucide-react';
+import { Star, BookOpen, CheckCircle, Trash } from 'lucide-react';
 import { myBooksAPI } from '../services/api';
 import toast from 'react-hot-toast';
 
@@ -20,10 +20,12 @@ interface MyBook {
 interface MyBookCardProps {
   myBook: MyBook;
   onUpdate: (updatedBook: MyBook) => void;
+  onDelete: (bookId: string) => void;  // add this
 }
 
-const MyBookCard: React.FC<MyBookCardProps> = ({ myBook, onUpdate }) => {
+const MyBookCard: React.FC<MyBookCardProps> = ({ myBook, onUpdate, onDelete }) => {
   const [isUpdating, setIsUpdating] = useState(false);
+  const [isDeleted, setIsDeleted] = useState(false); // new
 
   const handleStatusChange = async (newStatus: string) => {
     setIsUpdating(true);
@@ -59,8 +61,14 @@ const MyBookCard: React.FC<MyBookCardProps> = ({ myBook, onUpdate }) => {
     try {
       await myBooksAPI.delete(myBook.bookId._id);
       toast(`You threw away "${myBook.bookId.title}" 📚❌`);
+
+      setIsDeleted(true); // trigger fade out
+      setTimeout(() => {
+        onDelete(myBook._id); // remove from parent state after fade
+      }, 400); // duration matches CSS
+      // onDelete(myBook._id);  // notify parent to remove from UI
       // call onUpdate with null to tell parent to remove it
-      onUpdate({ ...myBook, _deleted: true } as any);
+      // onUpdate({ ...myBook, _deleted: true } as any);
     } catch (error) {
       console.error('Error deleting book:', error);
       toast('Failed to throw the book', { icon: '❌' });
@@ -97,7 +105,9 @@ const MyBookCard: React.FC<MyBookCardProps> = ({ myBook, onUpdate }) => {
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
+    <div
+      className={`bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-all duration-500 ${isDeleted ? 'opacity-0 scale-95' : 'opacity-100 scale-100'
+        }`}>
       <div className="flex sm:flex-row flex-col items-start sm:items-center p-4">
         <div className="w-full sm:w-32 flex-shrink-0">
           <img
@@ -181,14 +191,20 @@ const MyBookCard: React.FC<MyBookCardProps> = ({ myBook, onUpdate }) => {
           <button
             onClick={handleDelete}
             disabled={isUpdating}
-            className="mt-2 text-red-600 text-sm hover:underline disabled:opacity-50"
+            className={`mt-2 inline-flex items-center gap-1 px-3 py-1.5 rounded-md border text-sm font-medium transition-colors
+    ${isUpdating
+                ? 'bg-gray-100 text-gray-400 border-gray-200 cursor-not-allowed'
+                : 'bg-red-50 text-red-700 border-red-200 hover:bg-red-100'
+              }`}
           >
-            Throw this book
+            <Trash className="h-4 w-4" />
+            <span>Remove from Library</span>
           </button>
+
 
         </div>
       </div>
-    </div>
+    </div >
   );
 };
 

@@ -100,5 +100,23 @@ router.patch('/:bookId/rating', auth, async (req, res) => {
     res.status(500).json({ message: 'Server error', error: error.message });
   }
 });
+// Delete (remove) book from user's library
+router.delete('/:bookId', auth, async (req, res) => {
+  try {
+    const { bookId } = req.params;
+    const userId = req.user._id;
+
+    const deleted = await MyBook.findOneAndDelete({ userId, bookId });
+
+    if (!deleted) {
+      return res.status(404).json({ message: 'Book not found in your library' });
+    }
+
+    res.json({ message: 'Book removed from your library' });
+  } catch (error) {
+    res.status(500).json({ message: 'Server error', error: error.message });
+  }
+});
+
 
 module.exports = router;

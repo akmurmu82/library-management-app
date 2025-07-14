@@ -23,6 +23,10 @@ const Home: React.FC = () => {
   const [searchResults, setSearchResults] = useState<Book[]>([]);
   const [isSearching, setIsSearching] = useState(false);
 
+  const [suggestedBooks, setSuggestedBooks] = useState<Book[]>([]);
+  const [loadingSuggestions, setLoadingSuggestions] = useState(true);
+
+
   const handleSearch = async (query: string) => {
     if (!query.trim()) {
       setSearchResults([]);
@@ -46,7 +50,6 @@ const Home: React.FC = () => {
       })) || [];
 
       setSearchResults(formattedBooks);
-      console.log(formattedBooks);
 
       if (formattedBooks.length === 0) {
         toast('No books found', { icon: '📚' });
@@ -69,6 +72,40 @@ const Home: React.FC = () => {
   useEffect(() => {
     fetchBooks();
   }, []);
+
+  useEffect(() => {
+    fetchSuggestions();
+  }, []);
+
+  const fetchSuggestions = async () => {
+    try {
+      setLoadingSuggestions(true);
+      // You can pick a random common keyword or topic to keep results relevant
+      const keywords = ['fiction', 'science', 'adventure', 'history', 'fantasy', 'novel', 'coding', 'design'];
+      const randomKeyword = keywords[Math.floor(Math.random() * keywords.length)];
+
+      const res = await fetch(
+        `https://www.googleapis.com/books/v1/volumes?q=${encodeURIComponent(randomKeyword)}&maxResults=12`
+      );
+      const data = await res.json();
+
+      const formatted = data.items?.map((item: any) => ({
+        _id: item.id,
+        title: item.volumeInfo.title,
+        author: item.volumeInfo.authors?.join(', ') || 'Unknown',
+        coverImage: item.volumeInfo.imageLinks?.thumbnail || '',
+        description: item.volumeInfo.description || '',
+        genre: item.volumeInfo.categories?.[0] || 'General',
+      })) || [];
+
+      setSuggestedBooks(formatted);
+    } catch (error) {
+      console.error('Error fetching suggestions:', error);
+    } finally {
+      setLoadingSuggestions(false);
+    }
+  };
+
 
   const fetchBooks = async () => {
     try {
@@ -189,12 +226,31 @@ const Home: React.FC = () => {
           </div>
         )}
 
-        {/* Default books */}
-        {!searchTerm && books.length > 0 && (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {books.map((book) => (
-              <BookCard key={book._id} book={book} />
-            ))}
+        {/* Book Cards */}
+        {!searchTerm && (
+          <div className="mb-12">
+            <div className="text-center mb-8 flex justify-between items-center">
+              <h2 className="text-2xl font-semibold text-gray-900 mb-4">Discover New Books</h2>
+              <button
+                onClick={fetchSuggestions}
+                className="mb-4 inline-flex items-center space-x-2 bg-blue-600 text-white px-6 py-3 rounded-md hover:bg-blue-700 transition-colors"
+              >
+                Show other suggestions
+              </button>
+            </div>
+
+            {loadingSuggestions ? (
+              <div className="text-center py-12">
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+                <p className="text-gray-600">Loading suggestions...</p>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-2">
+                {suggestedBooks.map((book) => (
+                  <BookCard key={book._id} book={book} />
+                ))}
+              </div>
+            )}
           </div>
         )}
 
@@ -218,7 +274,7 @@ const Home: React.FC = () => {
           </div>
         )}
       </div>
-    </div>
+    </div >
   );
 };
 
