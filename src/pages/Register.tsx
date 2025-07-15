@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { BookOpen, Eye, EyeOff } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
+import Button from '../components/ui/Button';
 
 const Register: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -36,14 +37,14 @@ const Register: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen  bg-backgroundLight dark:bg-backgroundDark transition-colors duration-300  flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8">
         <div className="text-center">
           <BookOpen className="h-12 w-12 text-blue-600 mx-auto mb-4" />
-          <h2 className="text-3xl font-bold text-gray-900">
+          <h2 className="text-3xl font-bold text-textPrimary dark:text-white">
             Create your account
           </h2>
-          <p className="mt-2 text-gray-600">
+          <p className="mt-2 text-textPrimary dark:text-gray-400 text-sm">
             Join our community of book lovers
           </p>
         </div>
@@ -57,7 +58,7 @@ const Register: React.FC = () => {
 
           <div className="space-y-4">
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
+              <label htmlFor="email" className="block text-sm font-medium text-textPrimary dark:text-gray-400 mb-2">
                 Email address
               </label>
               <input
@@ -72,7 +73,7 @@ const Register: React.FC = () => {
             </div>
 
             <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-2">
+              <label htmlFor="password" className="block text-sm font-mediu text-textPrimary dark:text-gray-400 mb-2">
                 Password
               </label>
               <div className="relative">
@@ -100,7 +101,7 @@ const Register: React.FC = () => {
             </div>
 
             <div>
-              <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700 mb-2">
+              <label htmlFor="confirmPassword" className="block text-sm font-medium text-textPrimary dark:text-gray-400 mb-2">
                 Confirm Password
               </label>
               <div className="relative">
@@ -128,11 +129,7 @@ const Register: React.FC = () => {
             </div>
           </div>
 
-          <button
-            type="submit"
-            disabled={isLoading}
-            className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
-          >
+          <Button type="submit" disabled={isLoading} className="w-full">
             {isLoading ? (
               <div className="flex items-center space-x-2">
                 <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
@@ -141,10 +138,10 @@ const Register: React.FC = () => {
             ) : (
               'Create account'
             )}
-          </button>
+          </Button>
 
           <div className="text-center">
-            <p className="text-sm text-gray-600">
+            <p className="text-sm text-textPrimary dark:text-gray-400">
               Already have an account?{' '}
               <Link to="/login" className="font-medium text-blue-600 hover:text-blue-500">
                 Sign in

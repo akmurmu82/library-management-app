@@ -3,6 +3,7 @@ import { Library, BookOpen, Users, Star } from 'lucide-react';
 import MyBookCard from '../components/MyBookCard';
 import { myBooksAPI } from '../services/api';
 import toast from 'react-hot-toast';
+import Button from '../components/ui/Button';
 
 interface MyBook {
   _id: string;
@@ -69,7 +70,7 @@ const MyBooks: React.FC = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="min-h-screen bg-backgroundLight dark:backgroundDark flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-blue-600 mx-auto mb-4"></div>
           <p className="text-gray-600">Loading your books...</p>
@@ -80,16 +81,13 @@ const MyBooks: React.FC = () => {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="min-h-screen bg-backgroundLight dark:backgroundDark flex items-center justify-center">
         <div className="text-center">
           <Library className="h-16 w-16 text-red-500 mx-auto mb-4" />
           <p className="text-lg font-semibold text-red-600 mb-4">{error}</p>
-          <button
-            onClick={fetchMyBooks}
-            className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors"
-          >
+          <Button onClick={fetchMyBooks}>
             Try Again
-          </button>
+          </Button>
         </div>
       </div>
     );
@@ -100,30 +98,30 @@ const MyBooks: React.FC = () => {
   const stats = getStatistics();
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-backgroundLight dark:bg-backgroundDark text-textPrimary dark:textSecondary transition-colors duration-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Header */}
         <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">
+          <h1 className="text-4xl font-bold text-textPrimary dark:text-white mb-4">
             My Personal Library
           </h1>
-          <p className="text-xl text-gray-600">
+          <p className="text-xl text-textSecondary dark:text-white">
             Track your reading journey and rate your favorite books
           </p>
         </div>
 
         {myBooks.length === 0 ? (
           <div className="text-center py-12">
-            <Library className="h-16 w-16 text-gray-400 mx-auto mb-4" />
-            <h2 className="text-2xl font-semibold text-gray-900 mb-4">
+            <Library className="h-16 w-16 text-gray-400 dark:text-gray-500 mx-auto mb-4" />
+            <h2 className="text-2xl font-semibold text-textPrimary dark:text-white mb-4">
               Your library is empty
             </h2>
-            <p className="text-gray-600 mb-6">
+            <p className="text-textSecondary dark:text-gray-400 mb-6">
               Start building your personal library by adding books from our collection.
             </p>
             <a
               href="/"
-              className="inline-flex items-center space-x-2 bg-blue-600 text-white px-6 py-3 rounded-md hover:bg-blue-700 transition-colors"
+              className="inline-flex items-center space-x-2 bg-primary text-white px-6 py-3 rounded-md hover:bg-primary.dark dark:hover:bg-primary.light transition-colors"
             >
               <BookOpen className="h-5 w-5" />
               <span>Browse Books</span>
@@ -133,27 +131,27 @@ const MyBooks: React.FC = () => {
           <>
             {/* Statistics */}
             <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-              <div className="bg-white rounded-lg shadow-md p-6 text-center">
-                <Library className="h-8 w-8 text-blue-600 mx-auto mb-2" />
-                <p className="text-2xl font-bold text-gray-900">{stats.total}</p>
-                <p className="text-gray-600">Total Books</p>
+              <div className="bg-backgroundLight dark:bg-backgroundDark rounded-lg shadow p-6 text-center">
+                <Library className="h-8 w-8 text-primary mx-auto mb-2" />
+                <p className="text-2xl font-bold text-textPrimary dark:text-white">{stats.total}</p>
+                <p className="text-textSecondary dark:text-gray-400">Total Books</p>
               </div>
-              <div className="bg-white rounded-lg shadow-md p-6 text-center">
+              <div className="bg-backgroundLight dark:bg-backgroundDark rounded-lg shadow p-6 text-center">
                 <BookOpen className="h-8 w-8 text-orange-600 mx-auto mb-2" />
-                <p className="text-2xl font-bold text-gray-900">{stats.currentlyReading}</p>
-                <p className="text-gray-600">Currently Reading</p>
+                <p className="text-2xl font-bold text-textPrimary dark:text-white">{stats.currentlyReading}</p>
+                <p className="text-textSecondary dark:text-gray-400">Currently Reading</p>
               </div>
-              <div className="bg-white rounded-lg shadow-md p-6 text-center">
+              <div className="bg-backgroundLight dark:bg-backgroundDark rounded-lg shadow p-6 text-center">
                 <Users className="h-8 w-8 text-green-600 mx-auto mb-2" />
-                <p className="text-2xl font-bold text-gray-900">{stats.read}</p>
-                <p className="text-gray-600">Books Read</p>
+                <p className="text-2xl font-bold text-textPrimary dark:text-white">{stats.read}</p>
+                <p className="text-textSecondary dark:text-gray-400">Books Read</p>
               </div>
-              <div className="bg-white rounded-lg shadow-md p-6 text-center">
-                <Star className="h-8 w-8 text-yellow-600 mx-auto mb-2" />
-                <p className="text-2xl font-bold text-gray-900">
+              <div className="bg-backgroundLight dark:bg-backgroundDark rounded-lg shadow p-6 text-center">
+                <Star className="h-8 w-8 text-yellow-500 mx-auto mb-2" />
+                <p className="text-2xl font-bold text-textPrimary dark:text-white">
                   {stats.avgRating ? stats.avgRating.toFixed(1) : 'N/A'}
                 </p>
-                <p className="text-gray-600">Avg Rating</p>
+                <p className="text-textSecondary dark:text-gray-400">Avg Rating</p>
               </div>
             </div>
 
@@ -168,9 +166,10 @@ const MyBooks: React.FC = () => {
                 <button
                   key={key}
                   onClick={() => setFilter(key)}
-                  className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${filter === key
-                    ? 'bg-blue-600 text-white'
-                    : 'bg-white text-gray-700 hover:bg-blue-50 border border-gray-300'
+                  className={`px-4 py-2 rounded-md text-sm font-medium transition-colors border
+          ${filter === key
+                      ? 'bg-primary text-white dark:bg-primary.dark'
+                      : 'bg-backgroundLight dark:bg-backgroundDark text-textPrimary dark:text-gray-200 hover:bg-primary/10 dark:hover:bg-primary/20 border-gray-300 dark:border-gray-600'
                     }`}
                 >
                   {label}
@@ -189,17 +188,16 @@ const MyBooks: React.FC = () => {
                     setMyBooks(prev => prev.filter(book => book._id !== deletedId))
                   }
                 />
-
               ))}
             </div>
 
             {filteredBooks.length === 0 && filter !== 'all' && (
               <div className="text-center py-12">
-                <BookOpen className="h-16 w-16 text-gray-400 mx-auto mb-4" />
-                <h2 className="text-2xl font-semibold text-gray-900 mb-4">
+                <BookOpen className="h-16 w-16 text-gray-400 dark:text-gray-500 mx-auto mb-4" />
+                <h2 className="text-2xl font-semibold text-textPrimary dark:text-white mb-4">
                   No books found
                 </h2>
-                <p className="text-gray-600">
+                <p className="text-textSecondary dark:text-gray-400">
                   No books match the selected filter.
                 </p>
               </div>

@@ -106,8 +106,9 @@ const MyBookCard: React.FC<MyBookCardProps> = ({ myBook, onUpdate, onDelete }) =
 
   return (
     <div
-      className={`bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-all duration-500 ${isDeleted ? 'opacity-0 scale-95' : 'opacity-100 scale-100'
-        }`}>
+      className={`bg-backgroundLight dark:bg-backgroundDark rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-all duration-500 ${isDeleted ? 'opacity-0 scale-95' : 'opacity-100 scale-100'
+        }`}
+    >
       <div className="flex sm:flex-row flex-col items-start sm:items-center p-4">
         <div className="w-full sm:w-32 flex-shrink-0">
           <img
@@ -117,92 +118,54 @@ const MyBookCard: React.FC<MyBookCardProps> = ({ myBook, onUpdate, onDelete }) =
           />
         </div>
 
-
         <div className="flex-1 p-4">
-          <h3 className="text-lg font-semibold text-gray-800 mb-2">
+          <h3 className="text-lg font-semibold text-textPrimary dark:text-white mb-2">
             {myBook.bookId.title}
           </h3>
 
-          <p className="text-gray-600 mb-2 text-sm">
+          <p className="text-textSecondary dark:text-gray-400 mb-2 text-sm">
             by {myBook.bookId.author}
           </p>
 
           {myBook.bookId.genre && (
-            <span className="inline-block bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full mb-3">
+            <span className="inline-block bg-primary/10 text-primary dark:bg-primary.dark/20 dark:text-primary.light text-xs px-2 py-1 rounded-full mb-3">
               {myBook.bookId.genre}
             </span>
           )}
 
-          {/* Status Selection */}
-          <div className="mb-4">
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Reading Status
-            </label>
-            <select
-              value={myBook.status}
-              onChange={(e) => handleStatusChange(e.target.value)}
-              disabled={isUpdating}
-              className={`w-full px-3 py-2 rounded-md border text-sm font-medium transition-colors ${getStatusColor(myBook.status)
-                } ${isUpdating ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}`}
-            >
-              <option value="Want to Read">Want to Read</option>
-              <option value="Currently Reading">Currently Reading</option>
-              <option value="Read">Read</option>
-            </select>
-          </div>
+          {/* Status select */}
+          <select
+            value={myBook.status}
+            onChange={(e) => handleStatusChange(e.target.value)}
+            disabled={isUpdating}
+            className={`w-full px-3 py-2 rounded-md border text-sm font-medium
+          bg-backgroundLight dark:bg-gray-700 border-gray-200 dark:border-gray-600
+          text-textPrimary dark:text-white transition-colors
+          ${isUpdating ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}
+        `}
+          >
+            <option value="Want to Read">Want to Read</option>
+            <option value="Currently Reading">Currently Reading</option>
+            <option value="Read">Read</option>
+          </select>
 
-          {/* Rating */}
-          <div className="mb-4">
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Rating
-            </label>
-            <div className="flex items-center space-x-1">
-              {[1, 2, 3, 4, 5].map((star) => (
-                <button
-                  key={star}
-                  onClick={() => handleRatingChange(star)}
-                  disabled={isUpdating}
-                  className={`transition-colors ${isUpdating ? 'cursor-not-allowed opacity-50' : 'cursor-pointer hover:scale-110'
-                    }`}
-                >
-                  <Star
-                    className={`h-5 w-5 ${star <= (myBook.rating || 0)
-                      ? 'text-yellow-500 fill-current'
-                      : 'text-gray-300'
-                      }`}
-                  />
-                </button>
-              ))}
-              {myBook.rating && (
-                <span className="text-sm text-gray-600 ml-2">
-                  ({myBook.rating}/5)
-                </span>
-              )}
-            </div>
-          </div>
-
-          {/* Current Status Badge */}
-          <div className={`inline-flex items-center space-x-2 px-3 py-1.5 mr-2 rounded-md border text-sm font-medium ${getStatusColor(myBook.status)
-            }`}>
-            {getStatusIcon(myBook.status)}
-            <span>{myBook.status}</span>
-          </div>
-
+          {/* Remove button */}
           <button
             onClick={handleDelete}
             disabled={isUpdating}
             className={`mt-2 inline-flex items-center gap-1 px-3 py-1.5 rounded-md border text-sm font-medium transition-colors
-    ${isUpdating
+          ${isUpdating
                 ? 'bg-gray-100 text-gray-400 border-gray-200 cursor-not-allowed'
-                : 'bg-red-50 text-red-700 border-red-200 hover:bg-red-100'
-              }`}
+                : 'bg-red-50 text-red-700 border-red-200 hover:bg-red-100 dark:bg-red-900/20 dark:text-red-300 dark:border-red-700 dark:hover:bg-red-900/40'}
+        `}
           >
             <Trash className="h-4 w-4" />
             <span>Remove from Library</span>
           </button>
         </div>
       </div>
-    </div >
+    </div>
+
   );
 };
 

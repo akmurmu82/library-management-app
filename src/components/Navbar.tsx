@@ -2,6 +2,7 @@ import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { BookOpen, User, LogOut, Home, Library } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
+import { ThemeToggle } from './ui/ThemeToggle';
 
 const Navbar: React.FC = () => {
   const { user, isAuthenticated, logout } = useAuth();
@@ -58,11 +59,14 @@ const Navbar: React.FC = () => {
 
           {/* Navigation Links (desktop) */}
           <div className="hidden md:flex items-center space-x-6">
+            {/* Theme Toggle Button (optional) */}
+            <ThemeToggle />
+
             <Link
               to="/"
               className={`flex items-center space-x-1 px-3 py-2 rounded-md text-sm font-medium transition-colors ${isActive('/')
-                  ? 'text-blue-600 bg-blue-50'
-                  : 'text-gray-700 hover:text-blue-600 hover:bg-blue-50'
+                ? 'text-blue-600 bg-blue-50'
+                : 'text-gray-700 hover:text-blue-600 hover:bg-blue-50'
                 }`}
             >
               <Home className="h-4 w-4" />
@@ -73,8 +77,8 @@ const Navbar: React.FC = () => {
               <Link
                 to="/my-books"
                 className={`flex items-center space-x-1 px-3 py-2 rounded-md text-sm font-medium transition-colors ${isActive('/my-books')
-                    ? 'text-blue-600 bg-blue-50'
-                    : 'text-gray-700 hover:text-blue-600 hover:bg-blue-50'
+                  ? 'text-blue-600 bg-blue-50'
+                  : 'text-gray-700 hover:text-blue-600 hover:bg-blue-50'
                   }`}
               >
                 <Library className="h-4 w-4" />
@@ -102,8 +106,8 @@ const Navbar: React.FC = () => {
                 <Link
                   to="/login"
                   className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${isActive('/login')
-                      ? 'text-blue-600 bg-blue-50'
-                      : 'text-gray-700 hover:text-blue-600 hover:bg-blue-50'
+                    ? 'text-blue-600 bg-blue-50'
+                    : 'text-gray-700 hover:text-blue-600 hover:bg-blue-50'
                     }`}
                 >
                   Login
@@ -111,8 +115,8 @@ const Navbar: React.FC = () => {
                 <Link
                   to="/register"
                   className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${isActive('/register')
-                      ? 'text-white bg-blue-600'
-                      : 'text-white bg-blue-600 hover:bg-blue-700'
+                    ? 'text-white bg-blue-600'
+                    : 'text-white bg-blue-600 hover:bg-blue-700'
                     }`}
                 >
                   Register
@@ -122,14 +126,15 @@ const Navbar: React.FC = () => {
           </div>
         </div>
       </div>
+
       {/* Mobile menu */}
       <div className={`md:hidden ${open ? 'block' : 'hidden'}`} id="mobile-menu">
         <div className="px-2 pt-2 pb-3 space-y-1">
           <Link
             to="/"
             className={`flex items-center space-x-1 px-3 py-2 rounded-md text-sm font-medium transition-colors w-full ${isActive('/')
-                ? 'text-blue-600 bg-blue-50'
-                : 'text-gray-700 hover:text-blue-600 hover:bg-blue-50'
+              ? 'text-blue-600 bg-blue-50'
+              : 'text-gray-700 hover:text-blue-600 hover:bg-blue-50'
               }`}
             onClick={() => setOpen(false)}
           >
@@ -140,8 +145,8 @@ const Navbar: React.FC = () => {
             <Link
               to="/my-books"
               className={`flex items-center space-x-1 px-3 py-2 rounded-md text-sm font-medium transition-colors w-full ${isActive('/my-books')
-                  ? 'text-blue-600 bg-blue-50'
-                  : 'text-gray-700 hover:text-blue-600 hover:bg-blue-50'
+                ? 'text-blue-600 bg-blue-50'
+                : 'text-gray-700 hover:text-blue-600 hover:bg-blue-50'
                 }`}
               onClick={() => setOpen(false)}
             >
@@ -171,8 +176,8 @@ const Navbar: React.FC = () => {
               <Link
                 to="/login"
                 className={`px-4 py-2 rounded-md text-sm font-medium transition-colors w-full ${isActive('/login')
-                    ? 'text-blue-600 bg-blue-50'
-                    : 'text-gray-700 hover:text-blue-600 hover:bg-blue-50'
+                  ? 'text-blue-600 bg-blue-50'
+                  : 'text-gray-700 hover:text-blue-600 hover:bg-blue-50'
                   }`}
                 onClick={() => setOpen(false)}
               >
@@ -181,8 +186,8 @@ const Navbar: React.FC = () => {
               <Link
                 to="/register"
                 className={`px-4 py-2 rounded-md text-sm font-medium transition-colors w-full ${isActive('/register')
-                    ? 'text-white bg-blue-600'
-                    : 'text-white bg-blue-600 hover:bg-blue-700'
+                  ? 'text-white bg-blue-600'
+                  : 'text-white bg-blue-600 hover:bg-blue-700'
                   }`}
                 onClick={() => setOpen(false)}
               >

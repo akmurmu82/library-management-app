@@ -4,6 +4,7 @@ import BookCard from '../components/BookCard';
 import { booksAPI } from '../services/api';
 import { debounce } from '../utils/debounce';
 import toast from 'react-hot-toast';
+import Button from '../components/ui/Button';
 
 interface Book {
   _id: string;
@@ -134,12 +135,12 @@ const Home: React.FC = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="min-h-screen bg-backgroundLight dark:backgroundDark flex items-center justify-center" >
         <div className="text-center">
           <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-blue-600 mx-auto mb-4"></div>
-          <p className="text-gray-600">Loading books...</p>
+          <p className="text-primary">Loading books...</p>
         </div>
-      </div>
+      </div >
     );
   }
 
@@ -151,26 +152,23 @@ const Home: React.FC = () => {
             <BookOpen className="h-16 w-16 mx-auto mb-2" />
             <p className="text-lg font-semibold">{error}</p>
           </div>
-          <button
-            onClick={fetchBooks}
-            className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors"
-          >
+          <Button onClick={fetchBooks}>
             Try Again
-          </button>
+          </Button>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-backgroundLight dark:bg-backgroundDark text-textPrimary dark:textSecondary transition-colors duration-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Header */}
         <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">
+          <h1 className="text-4xl font-bold text-textPrimary dark:text-white mb-4">
             Discover Your Next Great Read
           </h1>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+          <p className="text-xl text-textPrimary dark:text-textSecondary max-w-2xl mx-auto">
             Explore our curated collection of books and build your personal library
           </p>
         </div>
@@ -186,21 +184,18 @@ const Home: React.FC = () => {
               debouncedSearch(e.target.value);
             }}
 
-            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
-          <button
-            onClick={() => handleSearch(searchTerm)}
-            className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors"
-          >
+          <Button onClick={() => handleSearch(searchTerm)}>
             Search
-          </button>
+          </Button>
         </div>
 
         {/* While searching */}
         {isSearching && searchTerm && (
           <div className="text-center py-12">
             <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-blue-600 mx-auto mb-4"></div>
-            <p className="text-gray-600">Searching for "{searchTerm}"...</p>
+            <p className="text-primary dark:secondary">Searching for "{searchTerm}"...</p>
           </div>
         )}
 
@@ -230,15 +225,12 @@ const Home: React.FC = () => {
         {!searchTerm && (
           <div className="mb-12">
             <div className="mb-8 flex flex-col sm:flex-row sm:justify-between sm:items-center text-center sm:text-left space-y-4 sm:space-y-0">
-              <h2 className="text-xl sm:text-2xl lg:text-3xl font-semibold text-gray-900">
+              <h2 className="text-xl sm:text-2xl lg:text-3xl font-semibold text-textPrimary dark:text-white">
                 Discover New Books
               </h2>
-              <button
-                onClick={fetchSuggestions}
-                className="inline-flex items-center justify-center space-x-2 bg-blue-600 text-white px-4 py-2 sm:px-5 sm:py-2.5 lg:px-6 lg:py-3 rounded-md hover:bg-blue-700 transition-colors text-sm sm:text-base"
-              >
+              <Button onClick={fetchSuggestions}>
                 Show other suggestions
-              </button>
+              </Button>
             </div>
 
 
@@ -267,13 +259,10 @@ const Home: React.FC = () => {
             <p className="text-gray-600 mb-6">
               Get started by adding some sample books to the library.
             </p>
-            <button
-              onClick={seedBooks}
-              className="inline-flex items-center space-x-2 bg-blue-600 text-white px-6 py-3 rounded-md hover:bg-blue-700 transition-colors"
-            >
+            <Button onClick={seedBooks}>
               <RefreshCw className="h-5 w-5" />
               <span>Add Sample Books</span>
-            </button>
+            </Button>
           </div>
         )}
       </div>

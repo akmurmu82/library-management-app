@@ -58,7 +58,7 @@ const BookCard: React.FC<BookCardProps> = ({ book, onAddToLibrary }) => {
 
 
   return (
-    <div className="p-2 overflow-hidden transition-shadow duration-300 flex flex-col lg:flex-row group">
+    <div className="p-2 overflow-hidden bg-backgroundLight dark:bg-backgroundDark transition-colors duration-300 flex flex-col lg:flex-row group rounded-lg shadow hover:shadow-lg">
       {/* Cover Image */}
       <div className="relative flex-shrink-0 w-full lg:w-48 h-64 lg:h-auto overflow-hidden">
         <img
@@ -72,22 +72,22 @@ const BookCard: React.FC<BookCardProps> = ({ book, onAddToLibrary }) => {
       {/* Info Section */}
       <div className="flex-1 flex flex-col justify-between p-4">
         <div>
-          <h3 className="text-lg font-semibold text-gray-900 mb-1 line-clamp-2">
+          <h3 className="text-lg font-semibold text-textPrimary dark:text-white mb-1 line-clamp-2">
             {book.title}
           </h3>
 
-          <p className="text-gray-600 text-sm mb-2">
+          <p className="text-textSecondary dark:text-gray-400 text-sm mb-2">
             by {book.author}
           </p>
 
           {book.genre && (
-            <span className="inline-block bg-blue-50 text-blue-700 text-xs px-2 py-1 rounded-full mb-3">
+            <span className="inline-block bg-primary/10 text-primary dark:bg-primary.dark/20 dark:text-primary.light text-xs px-2 py-1 rounded-full mb-3">
               {book.genre}
             </span>
           )}
 
           {book.description && (
-            <p className="text-gray-600 text-sm mb-4 line-clamp-3">
+            <p className="text-textPrimary dark:text-gray-300 text-sm mb-4 line-clamp-3">
               {book.description}
             </p>
           )}
@@ -96,32 +96,34 @@ const BookCard: React.FC<BookCardProps> = ({ book, onAddToLibrary }) => {
         <button
           onClick={handleAddToLibrary}
           disabled={isAdding || isAdded}
-          className={`w-full flex items-center justify-center gap-2 px-4 py-2 rounded-md text-sm font-medium transition-colors ${isAdded
-            ? 'bg-green-50 text-green-700 border border-green-300'
-            : isAdding
-              ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
-              : 'bg-blue-600 text-white hover:bg-blue-700'
+          className={`w-full flex items-center justify-center gap-2 px-4 py-2 rounded-md text-sm font-medium transition-colors border
+        ${isAdded
+              ? 'bg-green-50 text-green-700 border-green-300 dark:bg-green-900/20 dark:text-green-300 dark:border-green-700'
+              : isAdding
+                ? 'bg-gray-100 text-gray-400 border-gray-200 cursor-not-allowed dark:bg-gray-700 dark:text-gray-500 dark:border-gray-600'
+                : 'bg-primary text-white hover:bg-primary.dark dark:bg-primary.dark dark:hover:bg-primary'
             }`}
         >
           {isAdded ? (
             <>
               <Check className="h-4 w-4" />
-              <span>Added to Library</span>
+              <span className="font-bold">Added to Library</span>
             </>
           ) : isAdding ? (
             <>
               <div className="h-4 w-4 border-2 border-gray-300 border-t-gray-600 rounded-full animate-spin" />
-              <span>Adding...</span>
+              <span className="font-bold">Adding...</span>
             </>
           ) : (
             <>
               <Plus className="h-4 w-4" />
-              <span>Want to Read</span>
+              <span className="font-bold">Want to Read</span>
             </>
           )}
         </button>
       </div>
     </div>
+
 
   );
 };
