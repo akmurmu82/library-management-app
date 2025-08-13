@@ -20,36 +20,21 @@ interface MyBook {
 interface MyBookCardProps {
   myBook: MyBook;
   onUpdate: (updatedBook: MyBook) => void;
-  onDelete: (bookId: string) => void;  // add this
+  onDelete: (bookId: string) => void;
 }
 
 const MyBookCard: React.FC<MyBookCardProps> = ({ myBook, onUpdate, onDelete }) => {
   const [isUpdating, setIsUpdating] = useState(false);
-  const [isDeleted, setIsDeleted] = useState(false); // new
+  const [isDeleted, setIsDeleted] = useState(false);
 
   const handleStatusChange = async (newStatus: string) => {
     setIsUpdating(true);
     try {
       const response = await myBooksAPI.updateStatus(myBook.bookId._id, newStatus);
       onUpdate(response.data);
-      toast(`Status updated to ${newStatus}`, { icon: '✅' });
-    } catch (error) {
-      console.error('Error updating status:', error);
-      toast('Failed to update status', { icon: '❌' });
-    } finally {
-      setIsUpdating(false);
-    }
-  };
-
-  const handleRatingChange = async (newRating: number) => {
-    setIsUpdating(true);
-    try {
-      const response = await myBooksAPI.updateRating(myBook.bookId._id, newRating);
-      onUpdate(response.data);
-      toast(`Rating updated to ${newRating}/5`, { icon: '⭐' });
-    } catch (error) {
-      console.error('Error updating rating:', error);
-      toast('Failed to update rating', { icon: '❌' });
+      toast.success(`Status updated to ${newStatus}`);
+    } catch {
+      toast.error('Failed to update status');
     } finally {
       setIsUpdating(false);
     }
@@ -61,53 +46,22 @@ const MyBookCard: React.FC<MyBookCardProps> = ({ myBook, onUpdate, onDelete }) =
     try {
       await myBooksAPI.delete(myBook.bookId._id);
       toast(`You threw away "${myBook.bookId.title}" 📚❌`);
-
-      setIsDeleted(true); // trigger fade out
+      setIsDeleted(true);
       setTimeout(() => {
-        onDelete(myBook._id); // remove from parent state after fade
-      }, 400); // duration matches CSS
-      // onDelete(myBook._id);  // notify parent to remove from UI
-      // call onUpdate with null to tell parent to remove it
-      // onUpdate({ ...myBook, _deleted: true } as any);
-    } catch (error) {
-      console.error('Error deleting book:', error);
-      toast('Failed to throw the book', { icon: '❌' });
+        onDelete(myBook._id);
+      }, 400);
+    } catch {
+      toast.error('Failed to throw the book');
     } finally {
       setIsUpdating(false);
     }
   };
 
-
-  const getStatusIcon = (status: string) => {
-    switch (status) {
-      case 'Want to Read':
-        return <BookOpen className="h-4 w-4 text-blue-600" />;
-      case 'Currently Reading':
-        return <div className="h-4 w-4 bg-orange-500 rounded-full animate-pulse" />;
-      case 'Read':
-        return <CheckCircle className="h-4 w-4 text-green-600" />;
-      default:
-        return <BookOpen className="h-4 w-4 text-gray-600" />;
-    }
-  };
-
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case 'Want to Read':
-        return 'text-blue-600 bg-blue-50 border-blue-200';
-      case 'Currently Reading':
-        return 'text-orange-600 bg-orange-50 border-orange-200';
-      case 'Read':
-        return 'text-green-600 bg-green-50 border-green-200';
-      default:
-        return 'text-gray-600 bg-gray-50 border-gray-200';
-    }
-  };
-
   return (
     <div
-      className={`bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-all duration-500 ${isActive(path)
-        }`}
+      className={`bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden transition-all duration-500 transform
+        ${isDeleted ? 'opacity-0 scale-95' : 'opacity-100 scale-100'}
+      `}
     >
       <div className="flex sm:flex-row flex-col items-start sm:items-center p-3 sm:p-4">
         <div className="w-full sm:w-28 lg:w-32 flex-shrink-0 mb-3 sm:mb-0">
@@ -119,11 +73,11 @@ const MyBookCard: React.FC<MyBookCardProps> = ({ myBook, onUpdate, onDelete }) =
         </div>
 
         <div className="flex-1 sm:p-4 p-2">
-          <h3 className="text-base sm:text-lg font-semibold text-textPrimary dark:text-white mb-2">
+          <h3 className="text-sm sm:text-lg font-semibold text-textPrimary dark:text-white mb-2">
             {myBook.bookId.title}
           </h3>
 
-          <p className="text-textSecondary dark:text-gray-400 mb-2 text-xs sm:text-sm">
+          <p className="text-gray-600 dark:text-gray-400 mb-2 text-xs sm:text-sm">
             by {myBook.bookId.author}
           </p>
 
@@ -133,31 +87,29 @@ const MyBookCard: React.FC<MyBookCardProps> = ({ myBook, onUpdate, onDelete }) =
             </span>
           )}
 
-          {/* Status select */}
           <select
             value={myBook.status}
             onChange={(e) => handleStatusChange(e.target.value)}
             disabled={isUpdating}
             className={`w-full px-3 py-2 rounded-md border text-xs sm:text-sm font-medium
-          bg-white dark:bg-gray-700 border-gray-200 dark:border-gray-600
-          text-textPrimary dark:text-white transition-colors
-          ${isUpdating ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}
-        `}
+              bg-white dark:bg-gray-700 border-gray-200 dark:border-gray-600
+              text-textPrimary dark:text-white transition-colors
+              ${isUpdating ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}
+            `}
           >
             <option value="Want to Read">Want to Read</option>
             <option value="Currently Reading">Currently Reading</option>
             <option value="Read">Read</option>
           </select>
 
-          {/* Remove button */}
           <button
             onClick={handleDelete}
             disabled={isUpdating}
             className={`mt-2 inline-flex items-center gap-1 px-2 sm:px-3 py-1.5 rounded-md border text-xs sm:text-sm font-medium transition-colors
-          ${isUpdating
+              ${isUpdating
                 ? 'bg-gray-100 text-gray-400 border-gray-200 cursor-not-allowed'
                 : 'bg-red-50 text-red-700 border-red-200 hover:bg-red-100 dark:bg-red-900/30 dark:text-red-300 dark:border-red-700 dark:hover:bg-red-900/50'}
-        `}
+            `}
           >
             <Trash className="h-3 w-3 sm:h-4 sm:w-4" />
             <span>Remove from Library</span>
@@ -165,7 +117,6 @@ const MyBookCard: React.FC<MyBookCardProps> = ({ myBook, onUpdate, onDelete }) =
         </div>
       </div>
     </div>
-
   );
 };
 
