@@ -114,7 +114,7 @@ const Navbar: React.FC = () => {
                 </Link>
                 <Link
                   to="/register"
-                  className={`px-4 py-2 rounded-md text-sm sm:text-base font-medium transition-colors ${
+                  className={`px-4 py-2 rounded-md text-sm sm:text-base font-medium transition-colors ${isActive(path)
                       ? 'text-white bg-blue-600 dark:bg-blue-700'
                       : 'text-white bg-blue-600 dark:bg-blue-700 hover:bg-blue-700 dark:hover:bg-blue-600'
                     }`}
