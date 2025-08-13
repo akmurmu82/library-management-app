@@ -28,7 +28,7 @@ const Footer: React.FC = () => {
           </div>
 
           {/* Quick Links */}
-  <div className="flex">
+  <div className="flex justify-between">
   
   <div className="text-sm sm:text-xs"> {/* smaller font on small screens */}
             <h3 className="text-sm font-semibold text-gray-900 dark:text-white uppercase tracking-wider mb-4">
