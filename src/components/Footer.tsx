@@ -5,9 +5,9 @@ const Footer: React.FC = () => {
   return (
     <footer className="bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700 transition-colors duration-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
           {/* Brand Section */}
-          <div className="col-span-1 md:col-span-2">
+  <div className="col-span-1 sm:col-span-2 md:col-span-2">
             <div className="flex items-center space-x-2 mb-4">
               <BookOpen className="h-8 w-8 text-blue-600" />
               <span className="text-xl font-bold text-gray-800 dark:text-white">
@@ -28,7 +28,7 @@ const Footer: React.FC = () => {
           </div>
 
           {/* Quick Links */}
-          <div>
+  <div className="text-sm sm:text-xs"> {/* smaller font on small screens */}
             <h3 className="text-sm font-semibold text-gray-900 dark:text-white uppercase tracking-wider mb-4">
               Quick Links
             </h3>
@@ -57,7 +57,7 @@ const Footer: React.FC = () => {
           </div>
 
           {/* Connect & Support */}
-          <div>
+  <div className="text-sm sm:text-xs"> {/* smaller font on small screens */}
             <h3 className="text-sm font-semibold text-gray-900 dark:text-white uppercase tracking-wider mb-4">
               Connect & Support
             </h3>
