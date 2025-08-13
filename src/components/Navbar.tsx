@@ -9,7 +9,7 @@ const Navbar: React.FC = () => {
   const location = useLocation();
   const [open, setOpen] = React.useState(false);
 
-  const isActive = (path: string) => location.pathname === path;
+  const isActive = (targetPath: string) => location.pathname === targetPath;
 
   const handleLogout = async () => {
     try {
@@ -59,15 +59,15 @@ const Navbar: React.FC = () => {
 
           {/* Navigation Links (desktop) */}
           <div className="hidden md:flex items-center space-x-6">
-            {/* Theme Toggle Button (optional) */}
             <ThemeToggle />
 
             <Link
               to="/"
-              className={`flex items-center space-x-1 px-3 py-2 rounded-md text-sm sm:text-base font-medium transition-colors ${isActive(path)
-                ? 'text-blue-600 bg-blue-50'
-                : 'text-gray-700 hover:text-blue-600 hover:bg-blue-50'
-                }`}
+              className={`flex items-center space-x-1 px-3 py-2 rounded-md text-sm sm:text-base font-medium transition-colors ${
+                isActive('/')
+                  ? 'text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20'
+                  : 'text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-gray-700'
+              }`}
             >
               <Home className="h-4 w-4" />
               <span>Home</span>
@@ -76,10 +76,11 @@ const Navbar: React.FC = () => {
             {isAuthenticated && (
               <Link
                 to="/my-books"
-                className={`flex items-center space-x-1 px-3 py-2 rounded-md text-sm sm:text-base font-medium transition-colors ${isActive(path)
-                  ? 'text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20'
-                  : 'text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-gray-700'
-                  }`}
+                className={`flex items-center space-x-1 px-3 py-2 rounded-md text-sm sm:text-base font-medium transition-colors ${
+                  isActive('/my-books')
+                    ? 'text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20'
+                    : 'text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-gray-700'
+                }`}
               >
                 <Library className="h-4 w-4" />
                 <span>My Books</span>
@@ -105,19 +106,21 @@ const Navbar: React.FC = () => {
               <div className="flex items-center space-x-2">
                 <Link
                   to="/login"
-                  className={`px-4 py-2 rounded-md text-sm sm:text-base font-medium transition-colors ${isActive(path)
+                  className={`px-4 py-2 rounded-md text-sm sm:text-base font-medium transition-colors ${
+                    isActive('/login')
                       ? 'text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20'
                       : 'text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-gray-700'
-                    }`}
+                  }`}
                 >
                   Login
                 </Link>
                 <Link
                   to="/register"
-                  className={`px-4 py-2 rounded-md text-sm sm:text-base font-medium transition-colors ${isActive(path)
+                  className={`px-4 py-2 rounded-md text-sm sm:text-base font-medium transition-colors ${
+                    isActive('/register')
                       ? 'text-white bg-blue-600 dark:bg-blue-700'
                       : 'text-white bg-blue-600 dark:bg-blue-700 hover:bg-blue-700 dark:hover:bg-blue-600'
-                    }`}
+                  }`}
                 >
                   Register
                 </Link>
@@ -127,33 +130,30 @@ const Navbar: React.FC = () => {
         </div>
       </div>
 
-      {/* Mobile menu */}
+      {/* Mobile Menu */}
       <div className={`md:hidden ${open ? 'block' : 'hidden'} bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700`} id="mobile-menu">
         <div className="px-2 pt-2 pb-3 space-y-1 transition-colors duration-300">
-
-          {/* Home */}
           <Link
             to="/"
-            className={`flex items-center space-x-1 px-3 py-2 rounded-md text-base font-medium transition-colors w-full 
-        ${isActive('/')
+            className={`flex items-center space-x-1 px-3 py-2 rounded-md text-base font-medium transition-colors w-full ${
+              isActive('/')
                 ? 'text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20'
-                : 'text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-gray-700'}
-      `}
+                : 'text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-gray-700'
+            }`}
             onClick={() => setOpen(false)}
           >
             <Home className="h-4 w-4" />
             <span>Home</span>
           </Link>
 
-          {/* My Books */}
           {isAuthenticated && (
             <Link
               to="/my-books"
-              className={`flex items-center space-x-1 px-3 py-2 rounded-md text-base font-medium transition-colors w-full 
-          ${isActive('/my-books')
+              className={`flex items-center space-x-1 px-3 py-2 rounded-md text-base font-medium transition-colors w-full ${
+                isActive('/my-books')
                   ? 'text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20'
-                  : 'text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-gray-700'}
-        `}
+                  : 'text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-gray-700'
+              }`}
               onClick={() => setOpen(false)}
             >
               <Library className="h-4 w-4" />
@@ -161,7 +161,6 @@ const Navbar: React.FC = () => {
             </Link>
           )}
 
-          {/* Auth */}
           {isAuthenticated ? (
             <div className="flex flex-col space-y-2 mt-2">
               <div className="flex items-center space-x-2 text-base text-gray-600 dark:text-gray-400 px-3">
@@ -183,11 +182,11 @@ const Navbar: React.FC = () => {
             <div className="flex flex-col space-y-2 mt-2">
               <Link
                 to="/login"
-                className={`px-4 py-2 rounded-md text-base font-medium transition-colors w-full 
-            ${isActive('/login')
+                className={`px-4 py-2 rounded-md text-base font-medium transition-colors w-full ${
+                  isActive('/login')
                     ? 'text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20'
-                    : 'text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-gray-700'}
-          `}
+                    : 'text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-gray-700'
+                }`}
                 onClick={() => setOpen(false)}
               >
                 Login
@@ -202,13 +201,11 @@ const Navbar: React.FC = () => {
             </div>
           )}
 
-          {/* 🌗 Theme toggle button */}
           <div className="flex justify-center mt-4">
             <ThemeToggle />
           </div>
         </div>
       </div>
-
     </nav>
   );
 };
