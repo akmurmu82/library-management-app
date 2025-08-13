@@ -76,7 +76,7 @@ const Navbar: React.FC = () => {
             {isAuthenticated && (
               <Link
                 to="/my-books"
-                className={`flex items-center space-x-1 px-3 py-2 rounded-md text-sm sm:text-base font-medium transition-colors ${
+                className={`flex items-center space-x-1 px-3 py-2 rounded-md text-sm sm:text-base font-medium transition-colors ${isActive(path)
                   ? 'text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20'
                   : 'text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-gray-700'
                   }`}
