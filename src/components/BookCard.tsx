@@ -58,9 +58,9 @@ const BookCard: React.FC<BookCardProps> = ({ book, onAddToLibrary }) => {
 
 
   return (
-    <div className="p-2 overflow-hidden bg-backgroundLight dark:bg-backgroundDark transition-colors duration-300 flex flex-col lg:flex-row group rounded-lg shadow hover:shadow-lg">
+    <div className="p-3 sm:p-4 overflow-hidden bg-white dark:bg-gray-800 transition-colors duration-300 flex flex-col lg:flex-row group rounded-lg shadow hover:shadow-lg">
       {/* Cover Image */}
-      <div className="relative flex-shrink-0 w-full lg:w-48 h-64 lg:h-auto overflow-hidden">
+      <div className="relative flex-shrink-0 w-full lg:w-40 xl:w-48 h-48 sm:h-64 lg:h-auto overflow-hidden">
         <img
           src={book.coverImage}
           alt={book.title}
@@ -70,24 +70,24 @@ const BookCard: React.FC<BookCardProps> = ({ book, onAddToLibrary }) => {
       </div>
 
       {/* Info Section */}
-      <div className="flex-1 flex flex-col justify-between p-4">
+      <div className="flex-1 flex flex-col justify-between p-3 sm:p-4">
         <div>
-          <h3 className="text-lg font-semibold text-textPrimary dark:text-white mb-1 line-clamp-2">
+          <h3 className="text-base sm:text-lg font-semibold text-textPrimary dark:text-white mb-1 line-clamp-2">
             {book.title}
           </h3>
 
-          <p className="text-textSecondary dark:text-gray-400 text-sm mb-2">
+          <p className="text-textSecondary dark:text-gray-400 text-xs sm:text-sm mb-2">
             by {book.author}
           </p>
 
           {book.genre && (
-            <span className="inline-block bg-primary/10 text-primary dark:bg-primary.dark/20 dark:text-primary.light text-xs px-2 py-1 rounded-full mb-3">
+            <span className="inline-block bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300 text-xs px-2 py-1 rounded-full mb-3">
               {book.genre}
             </span>
           )}
 
           {book.description && (
-            <p className="text-textPrimary dark:text-gray-300 text-sm mb-4 line-clamp-3">
+            <p className="text-textPrimary dark:text-gray-300 text-xs sm:text-sm mb-4 line-clamp-3">
               {book.description}
             </p>
           )}
@@ -96,27 +96,27 @@ const BookCard: React.FC<BookCardProps> = ({ book, onAddToLibrary }) => {
         <button
           onClick={handleAddToLibrary}
           disabled={isAdding || isAdded}
-          className={`w-full flex items-center justify-center gap-2 px-4 py-2 rounded-md text-sm font-medium transition-colors border
+          className={`w-full flex items-center justify-center gap-2 px-3 sm:px-4 py-2 rounded-md text-xs sm:text-sm font-medium transition-colors border
         ${isAdded
-              ? 'bg-green-50 text-green-700 border-green-300 dark:bg-green-900/20 dark:text-green-300 dark:border-green-700'
+              ? 'bg-green-50 text-green-700 border-green-300 dark:bg-green-900/30 dark:text-green-300 dark:border-green-700'
               : isAdding
-                ? 'bg-gray-100 text-gray-400 border-gray-200 cursor-not-allowed dark:bg-gray-700 dark:text-gray-500 dark:border-gray-600'
-                : 'bg-primary text-white hover:bg-primary.dark dark:bg-primary.dark dark:hover:bg-primary'
+                ? 'bg-gray-100 text-gray-400 border-gray-200 cursor-not-allowed dark:bg-gray-700/50 dark:text-gray-500 dark:border-gray-600'
+                : 'bg-blue-600 text-white hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-600'
             }`}
         >
           {isAdded ? (
             <>
-              <Check className="h-4 w-4" />
+              <Check className="h-3 w-3 sm:h-4 sm:w-4" />
               <span className="font-bold">Added to Library</span>
             </>
           ) : isAdding ? (
             <>
-              <div className="h-4 w-4 border-2 border-gray-300 border-t-gray-600 rounded-full animate-spin" />
+              <div className="h-3 w-3 sm:h-4 sm:w-4 border-2 border-gray-300 border-t-gray-600 rounded-full animate-spin" />
               <span className="font-bold">Adding...</span>
             </>
           ) : (
             <>
-              <Plus className="h-4 w-4" />
+              <Plus className="h-3 w-3 sm:h-4 sm:w-4" />
               <span className="font-bold">Want to Read</span>
             </>
           )}

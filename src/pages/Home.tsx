@@ -174,7 +174,7 @@ const Home: React.FC = () => {
         </div>
 
         {/* Search Bar */}
-        <div className="flex items-center gap-4 mb-8 max-w-xl mx-auto">
+        <div className="flex flex-col sm:flex-row items-center gap-4 mb-8 max-w-xl mx-auto">
           <input
             type="text"
             placeholder="Search for books..."
@@ -184,9 +184,9 @@ const Home: React.FC = () => {
               debouncedSearch(e.target.value);
             }}
 
-            className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full px-4 py-2 text-sm sm:text-base border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors"
           />
-          <Button onClick={() => handleSearch(searchTerm)}>
+          <Button onClick={() => handleSearch(searchTerm)} className="w-full sm:w-auto">
             Search
           </Button>
         </div>
@@ -201,7 +201,7 @@ const Home: React.FC = () => {
 
         {/* Search results */}
         {!isSearching && searchTerm && searchResults.length > 0 && (
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
             {searchResults.map((book) => (
               <BookCard key={book._id} book={book} />
             ))}
@@ -225,7 +225,7 @@ const Home: React.FC = () => {
         {!searchTerm && (
           <div className="mb-12">
             <div className="mb-8 flex flex-col sm:flex-row sm:justify-between sm:items-center text-center sm:text-left space-y-4 sm:space-y-0">
-              <h2 className="text-xl sm:text-2xl lg:text-3xl font-semibold text-textPrimary dark:text-white">
+              <h2 className="text-lg sm:text-xl lg:text-2xl xl:text-3xl font-semibold text-textPrimary dark:text-white">
                 Discover New Books
               </h2>
               <Button onClick={fetchSuggestions}>
@@ -240,7 +240,7 @@ const Home: React.FC = () => {
                 <p className="text-gray-600">Loading suggestions...</p>
               </div>
             ) : (
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-2">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
                 {suggestedBooks.map((book) => (
                   <BookCard key={book._id} book={book} />
                 ))}

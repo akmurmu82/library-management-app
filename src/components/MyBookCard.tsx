@@ -106,29 +106,29 @@ const MyBookCard: React.FC<MyBookCardProps> = ({ myBook, onUpdate, onDelete }) =
 
   return (
     <div
-      className={`bg-backgroundLight dark:bg-backgroundDark rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-all duration-500 ${isDeleted ? 'opacity-0 scale-95' : 'opacity-100 scale-100'
+      className={`bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-all duration-500 ${
         }`}
     >
-      <div className="flex sm:flex-row flex-col items-start sm:items-center p-4">
-        <div className="w-full sm:w-32 flex-shrink-0">
+      <div className="flex sm:flex-row flex-col items-start sm:items-center p-3 sm:p-4">
+        <div className="w-full sm:w-28 lg:w-32 flex-shrink-0 mb-3 sm:mb-0">
           <img
             src={myBook.bookId.coverImage}
             alt={myBook.bookId.title}
-            className="w-full h-auto object-cover"
+            className="w-full h-auto object-cover rounded"
           />
         </div>
 
-        <div className="flex-1 p-4">
-          <h3 className="text-lg font-semibold text-textPrimary dark:text-white mb-2">
+        <div className="flex-1 sm:p-4 p-2">
+          <h3 className="text-base sm:text-lg font-semibold text-textPrimary dark:text-white mb-2">
             {myBook.bookId.title}
           </h3>
 
-          <p className="text-textSecondary dark:text-gray-400 mb-2 text-sm">
+          <p className="text-textSecondary dark:text-gray-400 mb-2 text-xs sm:text-sm">
             by {myBook.bookId.author}
           </p>
 
           {myBook.bookId.genre && (
-            <span className="inline-block bg-primary/10 text-primary dark:bg-primary.dark/20 dark:text-primary.light text-xs px-2 py-1 rounded-full mb-3">
+            <span className="inline-block bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300 text-xs px-2 py-1 rounded-full mb-3">
               {myBook.bookId.genre}
             </span>
           )}
@@ -138,8 +138,8 @@ const MyBookCard: React.FC<MyBookCardProps> = ({ myBook, onUpdate, onDelete }) =
             value={myBook.status}
             onChange={(e) => handleStatusChange(e.target.value)}
             disabled={isUpdating}
-            className={`w-full px-3 py-2 rounded-md border text-sm font-medium
-          bg-backgroundLight dark:bg-gray-700 border-gray-200 dark:border-gray-600
+            className={`w-full px-3 py-2 rounded-md border text-xs sm:text-sm font-medium
+          bg-white dark:bg-gray-700 border-gray-200 dark:border-gray-600
           text-textPrimary dark:text-white transition-colors
           ${isUpdating ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}
         `}
@@ -153,13 +153,13 @@ const MyBookCard: React.FC<MyBookCardProps> = ({ myBook, onUpdate, onDelete }) =
           <button
             onClick={handleDelete}
             disabled={isUpdating}
-            className={`mt-2 inline-flex items-center gap-1 px-3 py-1.5 rounded-md border text-sm font-medium transition-colors
+            className={`mt-2 inline-flex items-center gap-1 px-2 sm:px-3 py-1.5 rounded-md border text-xs sm:text-sm font-medium transition-colors
           ${isUpdating
                 ? 'bg-gray-100 text-gray-400 border-gray-200 cursor-not-allowed'
-                : 'bg-red-50 text-red-700 border-red-200 hover:bg-red-100 dark:bg-red-900/20 dark:text-red-300 dark:border-red-700 dark:hover:bg-red-900/40'}
+                : 'bg-red-50 text-red-700 border-red-200 hover:bg-red-100 dark:bg-red-900/30 dark:text-red-300 dark:border-red-700 dark:hover:bg-red-900/50'}
         `}
           >
-            <Trash className="h-4 w-4" />
+            <Trash className="h-3 w-3 sm:h-4 sm:w-4" />
             <span>Remove from Library</span>
           </button>
         </div>

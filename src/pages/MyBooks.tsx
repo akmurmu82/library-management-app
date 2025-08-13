@@ -130,28 +130,28 @@ const MyBooks: React.FC = () => {
         ) : (
           <>
             {/* Statistics */}
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-              <div className="bg-backgroundLight dark:bg-backgroundDark rounded-lg shadow p-6 text-center">
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-8">
+              <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-4 sm:p-6 text-center transition-colors">
                 <Library className="h-8 w-8 text-primary mx-auto mb-2" />
-                <p className="text-2xl font-bold text-textPrimary dark:text-white">{stats.total}</p>
-                <p className="text-textSecondary dark:text-gray-400">Total Books</p>
+                <p className="text-xl sm:text-2xl font-bold text-textPrimary dark:text-white">{stats.total}</p>
+                <p className="text-xs sm:text-sm text-textSecondary dark:text-gray-400">Total Books</p>
               </div>
-              <div className="bg-backgroundLight dark:bg-backgroundDark rounded-lg shadow p-6 text-center">
+              <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-4 sm:p-6 text-center transition-colors">
                 <BookOpen className="h-8 w-8 text-orange-600 mx-auto mb-2" />
-                <p className="text-2xl font-bold text-textPrimary dark:text-white">{stats.currentlyReading}</p>
-                <p className="text-textSecondary dark:text-gray-400">Currently Reading</p>
+                <p className="text-xl sm:text-2xl font-bold text-textPrimary dark:text-white">{stats.currentlyReading}</p>
+                <p className="text-xs sm:text-sm text-textSecondary dark:text-gray-400">Currently Reading</p>
               </div>
-              <div className="bg-backgroundLight dark:bg-backgroundDark rounded-lg shadow p-6 text-center">
+              <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-4 sm:p-6 text-center transition-colors">
                 <Users className="h-8 w-8 text-green-600 mx-auto mb-2" />
-                <p className="text-2xl font-bold text-textPrimary dark:text-white">{stats.read}</p>
-                <p className="text-textSecondary dark:text-gray-400">Books Read</p>
+                <p className="text-xl sm:text-2xl font-bold text-textPrimary dark:text-white">{stats.read}</p>
+                <p className="text-xs sm:text-sm text-textSecondary dark:text-gray-400">Books Read</p>
               </div>
-              <div className="bg-backgroundLight dark:bg-backgroundDark rounded-lg shadow p-6 text-center">
+              <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-4 sm:p-6 text-center transition-colors">
                 <Star className="h-8 w-8 text-yellow-500 mx-auto mb-2" />
-                <p className="text-2xl font-bold text-textPrimary dark:text-white">
+                <p className="text-xl sm:text-2xl font-bold text-textPrimary dark:text-white">
                   {stats.avgRating ? stats.avgRating.toFixed(1) : 'N/A'}
                 </p>
-                <p className="text-textSecondary dark:text-gray-400">Avg Rating</p>
+                <p className="text-xs sm:text-sm text-textSecondary dark:text-gray-400">Avg Rating</p>
               </div>
             </div>
 
@@ -166,10 +166,10 @@ const MyBooks: React.FC = () => {
                 <button
                   key={key}
                   onClick={() => setFilter(key)}
-                  className={`px-4 py-2 rounded-md text-sm font-medium transition-colors border
+                  className={`px-3 sm:px-4 py-2 rounded-md text-xs sm:text-sm font-medium transition-colors border
           ${filter === key
-                      ? 'bg-primary text-white dark:bg-primary.dark'
-                      : 'bg-backgroundLight dark:bg-backgroundDark text-textPrimary dark:text-gray-200 hover:bg-primary/10 dark:hover:bg-primary/20 border-gray-300 dark:border-gray-600'
+                      ? 'bg-blue-600 text-white dark:bg-blue-700'
+                      : 'bg-white dark:bg-gray-800 text-textPrimary dark:text-gray-200 hover:bg-blue-50 dark:hover:bg-blue-900/20 border-gray-300 dark:border-gray-600'
                     }`}
                 >
                   {label}
