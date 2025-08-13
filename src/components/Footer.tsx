@@ -28,6 +28,8 @@ const Footer: React.FC = () => {
           </div>
 
           {/* Quick Links */}
+  <div className="flex">
+  
   <div className="text-sm sm:text-xs"> {/* smaller font on small screens */}
             <h3 className="text-sm font-semibold text-gray-900 dark:text-white uppercase tracking-wider mb-4">
               Quick Links
@@ -103,6 +105,7 @@ const Footer: React.FC = () => {
               </a>
             </div>
           </div>
+    </div>
         </div>
 
         {/* Bottom Section */}
