@@ -106,7 +106,7 @@ const MyBookCard: React.FC<MyBookCardProps> = ({ myBook, onUpdate, onDelete }) =
 
   return (
     <div
-      className={`bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-all duration-500 ${
+      className={`bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-all duration-500 ${isActive(path)
         }`}
     >
       <div className="flex sm:flex-row flex-col items-start sm:items-center p-3 sm:p-4">
